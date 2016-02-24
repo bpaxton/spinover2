@@ -29,7 +29,6 @@ function animateBio(){
 }
 
 //MAIN
-$(function() {
 	$('#search').keyup(function(){
 			var searchField = $('#search').val();
 			console.log(searchField);
@@ -60,4 +59,3 @@ $(function() {
 		});
 		setTimeout(function(){animateBio();}, 1000);
 	});
-});
