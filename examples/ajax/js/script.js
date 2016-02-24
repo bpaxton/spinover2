@@ -4,10 +4,10 @@
 
 function outputSingleItem(key, val){
 	var output = '<li>';
-	output += '<img src="images/' + val.shortname + '_tn.jpg" alt="' + val.name + '" class="min" />';
 	output += '<h2>' + val.name + '</h2>';
 	output += '<span class="bio"><h3> Biography <i class="fa fa-arrow-circle-o-right"></i></h3>'
 	output += '<p class="hidden">' + val.bio + '</p></span>';
+	output += '<img src="images/' + val.shortname + '_tn.jpg" alt="' + val.name + '" class="min" />';
 	output += '</li>';
 	return output;
 
@@ -31,7 +31,6 @@ function animateBio(){
 //MAIN
 	$('#search').keyup(function(){
 			var searchField = $('#search').val();
-			console.log(searchField);
 			var myExp = new RegExp(searchField, "i");
 			$.getJSON('data.json', function(data){
 					var output = '<ul class="search-results">'
