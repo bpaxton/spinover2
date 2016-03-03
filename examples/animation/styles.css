@@ -1,0 +1,75 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700);
+
+/* Animation Basics */
+body {
+font-family: 'Roboto Condensed', helvetica, sans-serif;
+}
+
+.wrapper {
+	margin: 0;
+	padding-top: 100px;
+	padding-bottom: 100px;
+	width:100%;
+	position:relative;
+	min-height: 600px;
+}
+
+.robot{
+	background-color: #D8E8FA;
+}
+
+.blue_robot {
+		transform: rotate(45deg) skew(20deg)  ;
+}
+
+img{
+		display: block;
+		margin: 0 auto;
+}
+
+.london{
+	perspective: 1000px;
+}
+
+.london img{
+transform: rotateY(45deg) rotateX(20deg) rotateZ(10deg) translate3d(100px, 20px, -100px);
+}
+
+.rollover-robot{
+	background-color: #f7e4fe;
+	background-image: url('purple_diag_background.svg');
+	background-size: cover;
+	background-position: 0 -50px;
+	font-size: 1.6rem;
+	font-weight: 300;
+}
+
+.rollover-robot p {
+	color: white;
+	text-align: center;
+}
+
+.rollover-robot-inner{
+	margin-top: 12em;
+}
+
+.rollover-robot button {
+	cursor: hand;
+	background-color: #ff8d35;
+	color: white;
+	font:weight: 900;
+	font-size: 1.2rem;
+	border: none;
+	padding:1em 3em;
+	margin: 2em auto;
+	display:block;
+	box-shadow:0px 2px 2px 0px #222;
+
+	transition: background .25s .25s ease-in, transform .5s ease-in-out, box-shadow .5s ;
+}
+
+.rollover-robot button:hover {
+	background: #dd6b14;
+	transform: scale(1.2);
+	box-shadow:0px 3px 3px 3px rgba(35, 35, 35, 0.3);
+}
