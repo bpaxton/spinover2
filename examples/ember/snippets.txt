@@ -1,0 +1,175 @@
+Chapter 05 Snippets
+-------------------
+
+05-01
+-----
+
+Paste this code on line 29 in "index.html"
+------------------------------------------
+
+        {{#link-to "notes" class="btn btn-primary"}}Visitor Notes{{/link-to}}
+
+
+Paste this code below the EXHIBIT template in "index.html"
+----------------------------------------------------------
+
+  <!--
+    ===============================================
+    "NOTE" PAGE/TEMPLATE: displays the Note content
+    ===============================================
+  -->
+
+  <script type="text/x-handlebars" id="notes">
+    <article class="pageClass">
+      <h2>Visitor Notes</h2>
+      <textarea id="newEntry" placeholder="create a new note" rows="10" cols="50"></textarea>
+      <p class="btnVolunteerParagraph">
+        <button class="btn btn-info">Save this note</button>
+      </p>
+    </article>
+  </script>
+
+
+
+05-02
+-----
+
+Paste this code below "App.ExhibitController" in "app.js"
+---------------------------------------------------------
+
+/*
+ * NOTES CODE STARTS HERE
+ */
+
+ App.Note = DS.Model.extend({
+  copy: DS.attr()
+});
+
+
+
+05-03
+-----
+
+Paste this code in place of <article class="pageClass"> in index.html
+---------------------------------------------------------------------
+
+    <article class="pageClass">
+      <h2>Visitor Notes</h2>
+      {{textarea placeholder="create a new note" value=noteText rows=10 cols=50}}
+      <p class="btnVolunteerParagraph">
+        <button {{action "newNote"}} class="btn btn-info">Save this note</button>
+      </p>
+      {{#each}}
+        <div class="singleEntry">
+         {{copy}}
+        </div>
+      {{/each}}
+    </article>
+
+
+Paste this code at the bottom of app.js
+---------------------------------------
+
+App.NotesRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find("note");
+  }
+});
+
+App.NotesController = Ember.ArrayController.extend({
+  actions: {
+    newNote: function() {
+      var copy = this.get("noteText");
+      if (!copy) {
+        return false;
+      }
+
+      var note = this.store.createRecord("note", {
+        copy: copy
+      });
+
+      this.set("noteText", "");
+      note.save();
+    }
+  }
+});
+
+App.ApplicationAdapter = DS.LSAdapter.extend({
+  namespace: "samocaNotes"
+});
+
+
+
+05-04
+-----
+
+Replace the each loop in index.html with this code
+--------------------------------------------------
+
+      {{#each itemController="note"}}
+        <div class="singleEntry">
+        {{#if isEditing}}
+          <p><strong>EDIT THIS NOTE...</strong></p>
+          {{update-note value=copy}}
+          <p class="btnVolunteerParagraph">
+            <button {{action "saveNewNote"}} class="btn btn-info">Save this note</button>
+          </p>
+        {{else}}
+          {{copy}}
+          <hr/>
+          <p class="btnVolunteerParagraph">
+            <button {{action "editNote"}} class="btn btn-info">Edit this note</button>
+          </p>
+        {{/if}}
+        </div>
+      {{/each}}
+
+
+
+Paste this code above the App.ApplicationAdapter code
+-----------------------------------------------------
+
+App.NoteController = Ember.ObjectController.extend({
+  isEditing: false,
+  actions: {
+    editNote: function() {
+      this.set("isEditing", true);
+    },
+    saveNewNote: function() {
+      this.set("isEditing", false);
+      if (!(this.get("model.copy"))) {
+        this.send("deleteNote");
+      } else {
+        this.get("model").save();
+      }
+    }
+  }
+});
+
+App.EditNote = Ember.TextArea.extend({
+  attributeBindings: ["cols", "rows"],
+  cols: 50,
+  rows: 10
+});
+
+Ember.Handlebars.helper("update-note", App.EditNote);
+
+
+05-05
+-----
+
+Paste this code on line 191 in index.html
+-----------------------------------------
+<button {{action "deleteNote"}} class="btn btn-info">Delete this note</button>
+
+
+
+
+Paste this code below the saveNewNote in app.js
+Be sure to add a comma
+-----------------------------------------------
+
+    deleteNote: function() {
+      this.get("model").deleteRecord();
+      this.get("model").save();
+    }
